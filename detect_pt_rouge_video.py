@@ -2,9 +2,11 @@ import cv2
 import numpy as np
 
 # Chargement de la vidéo
-video = cv2.VideoCapture('IMG_7239.mp4')
-# video = cv2.VideoCapture(0)
+# video = cv2.VideoCapture('IMG_7239.mp4')
+video = cv2.VideoCapture(0)
 
+duree = 5  # duree de la video en secondes
+temps_debut = cv2.getTickCount()
 
 # Obtenir les propriétés de la vidéo
 largeur = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -18,6 +20,9 @@ video_finale = cv2.VideoWriter('video_contours.mp4', format, freq, (largeur, hau
 # Définir les couleurs de la plage de couleurs à détecter
 rouge_clair=np.array([0, 50, 50])
 rouge_fonce=np.array([10, 255, 255])
+
+# np.array([11, 93, 53])
+
 
 # Boucle sur chaque trame de la vidéo
 while True:
@@ -41,6 +46,12 @@ while True:
 
     # Écrire la nouvelle trame avec les contours dans la vidéo
     video_finale.write(image)
+
+    # Check if the duration has been reached
+    temps_ecoule = (cv2.getTickCount() - temps_debut) / cv2.getTickFrequency()
+    if temps_ecoule >= duree:
+        break
+
 
 # Fermer les objets VideoCapture et VideoWriter
 video.release()
