@@ -3,6 +3,8 @@ import numpy as np
 
 # Chargement de la vidéo
 video = cv2.VideoCapture('IMG_7239.mp4')
+# video = cv2.VideoCapture(0)
+
 
 # Obtenir les propriétés de la vidéo
 largeur = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
