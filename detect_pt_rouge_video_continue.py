@@ -2,30 +2,16 @@ import cv2
 import numpy as np
 
 # Chargement de la vidéo
-# video = cv2.VideoCapture('IMG_7239.mp4')
 video = cv2.VideoCapture(0)
-
-duree = 5  # duree de la video en secondes
-temps_debut = cv2.getTickCount()
 
 # Obtenir les propriétés de la vidéo
 largeur = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
 hauteur = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
 freq = int(video.get(cv2.CAP_PROP_FPS))
 
-# Créer un objet VideoWriter pour écrire la nouvelle vidéo avec les contours
-format = cv2.VideoWriter_fourcc(*'mp4v') # Format de la nouvelle vidéo
-video_finale = cv2.VideoWriter('video_contours.mp4', format, freq, (largeur, hauteur))
-
 # Définir les couleurs de la plage de couleurs à détecter
-# rouge_clair=np.array([0, 50, 50])
-# rouge_fonce=np.array([10, 255, 255])
-
-# np.array([11, 93, 53])
-
-rouge_clair=np.array([136, 87, 111])
-rouge_fonce=np.array([180, 255, 255])
-
+rouge_clair = np.array([136, 87, 111])
+rouge_fonce = np.array([180, 255, 255])
 
 # Boucle sur chaque trame de la vidéo
 while True:
@@ -33,12 +19,12 @@ while True:
     ret, image = video.read()
     if not ret:
         break
-    
+
     # Convertir la trame vidéo en HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
     # Appliquer le masque pour détecter les pixels rouges
-    masque=cv2.inRange(hsv,rouge_clair, rouge_fonce )
+    masque = cv2.inRange(hsv, rouge_clair, rouge_fonce)
 
     # Trouver les contours des objets dans l'image
     contours, hierarchie = cv2.findContours(masque, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -47,16 +33,14 @@ while True:
     for contour in contours:
         cv2.drawContours(image, [contour], 0, (255, 255, 0), 2)
 
-    # Écrire la nouvelle trame avec les contours dans la vidéo
-    video_finale.write(image)
+    # Afficher la trame courante avec les contours dans une fenêtre de sortie
+    cv2.imshow("Video", image)
 
-    # Check if the duration has been reached
-    temps_ecoule = (cv2.getTickCount() - temps_debut) / cv2.getTickFrequency()
-    if temps_ecoule >= duree:
+    # Attendre 1 milliseconde pour que la fenêtre s'affiche
+    # Si l'utilisateur appuie sur la touche "q", sortir de la boucle
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-
-# Fermer les objets VideoCapture et VideoWriter
+# Fermer la fenêtre de sortie et l'objet VideoCapture
+cv2.destroyAllWindows()
 video.release()
-video_finale.release()
-
