@@ -16,8 +16,8 @@ rouge_fonce = np.array([180, 255, 255])
 # Boucle sur chaque trame de la vidéo
 while True:
     # Lire la trame vidéo
-    ret, image = video.read()
-    if not ret:
+    res, image = video.read() #ret est un bollean qui verifie si la video a pu etre lu
+    if not res:  
         break
 
     # Convertir la trame vidéo en HSV
