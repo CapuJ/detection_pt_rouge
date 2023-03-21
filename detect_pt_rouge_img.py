@@ -5,7 +5,7 @@ import numpy as np
 #Configuration du port série pour le robot
 
 #Chargement de l'image
-Image=cv2.imread('image.jpg')
+Image=cv2.imread('gomete.jpg')
 Image2 = cv2.cvtColor(Image, cv2.COLOR_BGR2RGB)
 
 plt.figure() # ouvre une nouvelle figure
@@ -16,7 +16,7 @@ plt.show()
 rouge_clair=np.array([0, 50, 50])
 rouge_fonce=np.array([10, 255, 255])
 
-#Detection des pixels rougs dans l'image
+#Detection des pixels rouges dans l'image
 hsv = cv2.cvtColor(Image, cv2.COLOR_BGR2HSV)
 masque=cv2.inRange(hsv,rouge_clair, rouge_fonce )
 
