@@ -5,7 +5,7 @@ import numpy as np
 #Configuration du port série pour le robot
 
 #Chargement de l'image
-Image=cv2.imread('gomete.jpg')
+Image=cv2.imread('image.jpg')
 Image2 = cv2.cvtColor(Image, cv2.COLOR_BGR2RGB)
 
 plt.figure() # ouvre une nouvelle figure
