@@ -24,7 +24,7 @@ freq = int(video.get(cv2.CAP_PROP_FPS))
 # Boucle sur chaque trame de la vidéo
 while True:
     # Lire la trame vidéo
-    res, image = video.read() #ret est un bollean qui verifie si la video a pu etre lu image est le nombre de frame
+    res, image = video.read() #res est un bollean qui verifie si la video a pu etre lu image est le nombre de frame
     if not res:  
         break
 
@@ -45,8 +45,9 @@ while True:
     cv2.imshow("Video", image)
 
     # Attendre 1 milliseconde pour que la fenêtre s'affiche
-    # Si l'utilisateur appuie sur la touche "q", sortir de la boucle
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    # Si l'utilisateur appuie sur la touche "échap", sortir de la boucle
+    k = cv2.waitKey(1)
+    if k == 27: 
         break
 
 # Fermer la fenêtre de sortie et l'objet VideoCapture
