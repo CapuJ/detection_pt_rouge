@@ -15,8 +15,8 @@ rouge_clair = np.array([min_h, min_s, min_v])
 rouge_fonce = np.array([max_h, max_v, max_v])
 
 # Chargement de la vidéo
-video = cv2.VideoCapture(0) #0 pour la cémra de l'ordi
-# video = cv2.VideoCapture(1) #1 pour la caméra externe relié au port usb
+# video = cv2.VideoCapture(0) #0 pour la cémra de l'ordi
+video = cv2.VideoCapture(0) #1 pour la caméra externe relié au port usb
 
 # Obtenir les propriétés de la vidéo
 largeur = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
