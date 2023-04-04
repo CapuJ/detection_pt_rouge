@@ -26,6 +26,7 @@ freq = int(video.get(cv2.CAP_PROP_FPS)) #fréquence des images par secondes
 # Créer un objet VideoWriter pour écrire la nouvelle vidéo avec les contours
 # format = cv2.VideoWriter_fourcc(*'mp4v') # Format de la nouvelle vidéo
 # video_finale = cv2.VideoWriter('video_finale.mp4', format, freq, (largeur, hauteur))
+cpt = 0
 
 # Boucle sur chaque trame de la vidéo
 while True:
@@ -49,7 +50,42 @@ while True:
 
     # Afficher la trame courante avec les contours dans une fenêtre de sortie
     cv2.imshow("Video", image)
-    # video_finale.write(image)
+
+    if cpt % 100 == 0: #Si cpt est un multiple de 100 alors on rentre dans la boucle. 
+        # Trouver le plus grand contour (l'objet rouge entouré de bleu)
+        surface_max=None #le contour ayant la plus grande surface dans l'image
+        val_surface_max=0 #la valeur de la surface  maximale trouvée
+        for contour in contours:
+            surface_contour = cv2.contourArea(contour) #calcule la surface du contour courant 
+            if surface_contour > val_surface_max:
+                surface_max = contour #contiends le contour avec la plus grande surface
+                val_surface_max = surface_contour #contiends la valeur de cette surface maximale
+        
+        #Si aucun contour n'a été détecté dans l'image, surface_max restera à None.
+
+        # Si un objet rouge entouré de bleu a été détecté, récupérer sa position et la comparer avec le centre de l'image
+        if np.all(surface_max) != None:
+            # Récupérer les coordonnées du rectangle englobant du plus grand contour
+            x, y, l, h = cv2.boundingRect(surface_max) #x et y sont les coordonnée en haut a gauche du rectangle. l et h sont la longueur et la hauteur du rectangle
+
+            # Calculer la position de l'objet par rapport au centre de l'image
+
+            centreX_video = largeur / 2
+            centreY_video = hauteur / 2
+            centreX_rect = x + l / 2
+            centreY_rect = y + h / 2
+
+            x= centreX_rect -centreX_video
+            y=  centreY_rect -centreY_video
+            #si x est positif, le robot doit tourner à droite
+            
+            print('')
+            print(x)
+            print('')
+            
+
+    cpt += 1
+
 
     # Attendre 1 milliseconde pour que la fenêtre s'affiche
     # Si l'utilisateur appuie sur la touche "échap", sortir de la boucle
@@ -58,7 +94,21 @@ while True:
         break
 
 
+
+
+
 # Fermer la fenêtre de sortie et l'objet VideoCapture
 cv2.destroyAllWindows()
 video.release()
 # video_finale.release()
+
+
+
+
+
+
+
+
+
+# https://towardsdatascience.com/computer-vision-for-beginners-part-4-64a8d9856208#:~:text=around%20the%20object.-,The%20function%20cv2.,bounding%20box%20as%20shown%20below.&text=Note%20that%20this%20straight%20rectangle,area%20with%20the%20function%20cv2.
+# https://docs.opencv.org/3.4/dd/d49/tutorial_py_contour_features.html
